@@ -9,22 +9,40 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: ['babel-loader', 'eslint-loader'],
+        use: ['babel-loader'],
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(ts|js)x?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              '@babel/preset-env',
+              '@babel/preset-react',
+              '@babel/preset-typescript',
+            ],
+          },
+        },
       },
     ],
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx'],
+    extensions: ['.ts', '.tsx', '.js'],
   },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: 'Advanced React with Webpack Setup',
-      template: path.resolve(__dirname, '..', './src/index.html'),
+      template: path.resolve(__dirname, '..', './public/index.html'),
     }),
   ],
   output: {
     path: path.resolve(__dirname, '..', 'dist'),
-    filename: 'bundle.js',
+    filename: '[name].[hash].js',
   },
 };
